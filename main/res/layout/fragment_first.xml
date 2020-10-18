@@ -15,7 +15,7 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:text="Makan Apa Hari ini?"
-            android:textSize="30dp"
+            android:textSize="25dp"
             android:id="@+id/titleMakan"
             android:textAlignment="center"/>
 
@@ -26,22 +26,5 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:text="Cari" />
-
-
     </RelativeLayout>
-    <Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        >
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Makan Apa"
-            android:id="@+id/toolbar_text"
-            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"/>
-    </Toolbar>
-
 </RelativeLayout>
