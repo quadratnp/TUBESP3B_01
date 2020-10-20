@@ -15,8 +15,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import org.w3c.dom.Text;
 
-public class FirstFragment extends Fragment {
-
+public class FirstFragment extends Fragment implements View.OnClickListener {
+    protected FragmentListener fl;
     public FirstFragment() {
         //empty
     }
@@ -31,12 +31,22 @@ public class FirstFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_first, container, false);
         Button buttonCari = view.findViewById(R.id.buttonCari);
-        buttonCari.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+        buttonCari.setOnClickListener(this);
         return view;
+    }
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if(context instanceof FragmentListener){
+            this.fl = (FragmentListener) context;
+        } else{
+            throw new ClassCastException(context.toString()
+                    + "must implement FragmentListener");
+        }
+    }
+
+    @Override
+    public void onClick(View v){
+        this.fl.changePage(2);
     }
 }

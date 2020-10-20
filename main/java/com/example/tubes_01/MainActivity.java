@@ -10,11 +10,17 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ListView;
 
-public class MainActivity extends AppCompatActivity implements FragmentListener {
+import java.util.List;
 
+public class MainActivity extends AppCompatActivity implements FragmentListener, IMainActivity {
+    protected ListView lstMenus;
+    protected MenuListAdapter mla;
+    protected MainPresenter presenter;
     protected FragmentManager fragmentManager;
     protected FirstFragment fragment1;
+    protected SecondFragment fragment2;
     protected Toolbar toolbar;
     private DrawerLayout drawer;
 
@@ -22,9 +28,11 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        this.toolbar = findViewById(R.id.toolbar);
+
+        this.toolbar = this.findViewById(R.id.toolbar);
         this.setSupportActionBar(toolbar);
         this.fragment1 = FirstFragment.newInstance();
+        this.fragment2 = SecondFragment.newInstance();
         this.fragmentManager = getSupportFragmentManager();
         FragmentTransaction ft = this.fragmentManager.beginTransaction();
         ft.add(R.id.fragment_container, this.fragment1)
@@ -36,22 +44,53 @@ public class MainActivity extends AppCompatActivity implements FragmentListener 
         ActionBarDrawerToggle abdt = new ActionBarDrawerToggle(this,drawer, toolbar, R.string.openDrawer, R.string.closeDrawer );
         drawer.addDrawerListener(abdt);
         abdt.syncState();
+
+        this.presenter = new MainPresenter(this);
+        this.mla = new MenuListAdapter(this, this.presenter);
+        this.lstMenus = this.findViewById(R.id.lst_menus);
+        this.lstMenus.setAdapter(this.mla);
+        this.presenter.loadData();
     }
 
     public void changePage(int page){
         FragmentTransaction ft = this.fragmentManager.beginTransaction();
-        if(page==1){
-            if(this.fragment1.isAdded()){
+        if(page==1) {
+            if (this.fragment1.isAdded()) {
                 ft.show(this.fragment1);
-            }else{
+            } else {
                 ft.add(R.id.fragment_container, this.fragment1);
             }
-
+            if (this.fragment2.isAdded()) {
+                ft.hide(this.fragment2);
+            }
+        }
+        else if(page==2){
+            if(this.fragment2.isAdded()){
+                ft.show(this.fragment2);
+            }else{
+                ft.add(R.id.fragment_container,this.fragment2)
+                        .addToBackStack(null);
+            }
+            if(this.fragment1.isAdded()){
+                ft.hide(this.fragment1);
+            }
         }
         ft.commit();
-    }    @Override
+    }
+
+    @Override
     public void closeApplication() {
         this.moveTaskToBack(true);
         this.finish();
+    }
+
+    @Override
+    public void updateList(List<Menu> menus) {
+        this.mla.update(menus);
+    }
+
+    @Override
+    public void resetAddForm() {
+
     }
 }

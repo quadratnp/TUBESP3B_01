@@ -1,18 +1,28 @@
 package com.example.tubes_01;
 
 public class Menu {
+    public String nama;
     public String deskripsi;
     public String tag;
     public String bahan;
     public String langkah;
     public String lokasi;
 
-    public Menu(String deskripsi, String tag, String bahan, String langkah, String lokasi){
+    public Menu(String nama,String deskripsi, String tag, String bahan, String langkah, String lokasi){
+        this.nama = nama;
         this.deskripsi = deskripsi;
         this.tag = tag;
         this.bahan = bahan;
         this.langkah = langkah;
         this.lokasi = lokasi;
+    }
+
+    public String getNama(){
+        return nama;
+    }
+
+    public void setNama(String nama) {
+        this.nama = nama;
     }
 
     public String getBahan() {
