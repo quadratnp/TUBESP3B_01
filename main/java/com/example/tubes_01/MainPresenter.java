@@ -1,5 +1,7 @@
 package com.example.tubes_01;
 
+import androidx.fragment.app.Fragment;
+
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -7,10 +9,12 @@ import java.util.List;
 public class MainPresenter {
     protected List<Menu> menus;
     protected IMainActivity ui;
+    protected FragmentListener fl;
 
-    public MainPresenter (IMainActivity aktifitas){
+    public MainPresenter (IMainActivity aktifitas, FragmentListener fl){
         this.ui = aktifitas;
         this.menus = new LinkedList<Menu>();
+        this.fl = fl;
     }
 
     public void loadData(){
@@ -33,5 +37,13 @@ public class MainPresenter {
         this.menus.set(position,new Menu(nama,deskripsi,tag,bahan, langkah, lokasi) );
         this.ui.updateList(this.menus);
         this.ui.resetAddForm();
+    }
+
+    public void getList(Menu menu ){
+
+    }
+
+    public void changePage(int i){
+        this.fl.changePage(i);
     }
 }

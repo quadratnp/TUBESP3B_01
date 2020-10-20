@@ -10,6 +10,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import java.util.List;
@@ -21,7 +23,9 @@ public class MainActivity extends AppCompatActivity implements FragmentListener,
     protected FragmentManager fragmentManager;
     protected FirstFragment fragment1;
     protected SecondFragment fragment2;
+    protected ThirdFragment fragment3;
     protected Toolbar toolbar;
+
     private DrawerLayout drawer;
 
     @Override
@@ -33,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements FragmentListener,
         this.setSupportActionBar(toolbar);
         this.fragment1 = FirstFragment.newInstance();
         this.fragment2 = SecondFragment.newInstance();
+        this.fragment3 = ThirdFragment.newInstance();
         this.fragmentManager = getSupportFragmentManager();
         FragmentTransaction ft = this.fragmentManager.beginTransaction();
         ft.add(R.id.fragment_container, this.fragment1)
@@ -45,11 +50,9 @@ public class MainActivity extends AppCompatActivity implements FragmentListener,
         drawer.addDrawerListener(abdt);
         abdt.syncState();
 
-        this.presenter = new MainPresenter(this);
-        this.mla = new MenuListAdapter(this, this.presenter);
-        this.lstMenus = this.findViewById(R.id.lst_menus);
-        this.lstMenus.setAdapter(this.mla);
-        this.presenter.loadData();
+
+
+
     }
 
     public void changePage(int page){
@@ -75,6 +78,17 @@ public class MainActivity extends AppCompatActivity implements FragmentListener,
                 ft.hide(this.fragment1);
             }
         }
+        else if(page==3){
+            if(this.fragment3.isAdded()){
+                ft.show(this.fragment3);
+            }else{
+                ft.add(R.id.fragment_container,this.fragment3)
+                        .addToBackStack(null);
+            }
+            if(this.fragment2.isAdded()){
+                ft.hide(this.fragment2);
+            }
+        }
         ft.commit();
     }
 
@@ -92,5 +106,10 @@ public class MainActivity extends AppCompatActivity implements FragmentListener,
     @Override
     public void resetAddForm() {
 
+    }
+
+    @Override
+    public void transferList(Menu menu){
+        //this.mla;
     }
 }

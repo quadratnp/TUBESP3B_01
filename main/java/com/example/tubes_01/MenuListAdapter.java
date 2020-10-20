@@ -1,32 +1,41 @@
 package com.example.tubes_01;
 
 import android.app.Activity;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class MenuListAdapter extends BaseAdapter {
-    private List<Menu> listMenu;
+    private List<Menu> listMenus;
     private Activity activity;
     private MainPresenter presenter;
+    protected FragmentListener fl;
 
     public MenuListAdapter(Activity activity, MainPresenter presenter){
-        this.activity = activity;
-        this.listMenu = new ArrayList<Menu>();
+        this.activity=activity;
+        this.listMenus = new ArrayList<Menu>();
         this.presenter = presenter;
     }
 
+    public void add(Menu newItem){
+        this.listMenus.add(newItem);
+        this.notifyDataSetChanged();
+    }
+
     public int getCount(){
-        return this.listMenu.size();
+        return listMenus.size();
     }
 
     public Object getItem(int i){
-        return this.listMenu.get(i);
+        return listMenus.get(i);
     }
 
     public long getItemId(int i){
@@ -48,23 +57,44 @@ public class MenuListAdapter extends BaseAdapter {
 
         return convertView;
     }
-    public void update(List<Menu> menus) {
-        this.listMenu.clear();
-        this.listMenu.addAll((menus));
+
+    public void update(List<Menu> foods) {
+        this.listMenus.clear();
+        this.listMenus.addAll((foods));
         this.notifyDataSetChanged();
 
     }
 
-    private class ViewHolder {
+
+    private class ViewHolder implements View.OnClickListener {
         protected TextView nama;
+        protected Menu menu;
+        protected MainPresenter presenter;
+        protected FragmentListener fl;
+
         protected int position;
 
-        public ViewHolder(View view, MainPresenter presenter){
+        public ViewHolder (View view, MainPresenter presenter){
             this.nama = view.findViewById(R.id.tv_nama_menu);
+            this.presenter = presenter;
+            this.nama.setOnClickListener(this);
+
+
+        }
+
+
+        @Override
+        public void onClick(View v){
+            if(v.getId() == this.nama.getId()){
+                Menu menu = this.menu;
+                this.presenter.changePage(3);
+                this.presenter.getList(menu);
+            }
         }
 
         public void updateView(Menu menu, int position){
             this.position = position;
+            this.menu = menu;
             this.nama.setText(menu.getNama());
         }
     }
