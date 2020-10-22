@@ -1,2 +1,3 @@
 referensi :
 - https://www.codepolitan.com/menampilkan-title-toolbar-android-di-tengah-5a72c92cea8ef
+- https://www.codepolitan.com/aplikasi-crud-sederhana-menggunakan-android-studio-dengan-database-sqlite-57b6d14e04fa5-14500
