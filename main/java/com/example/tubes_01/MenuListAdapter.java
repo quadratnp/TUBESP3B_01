@@ -1,7 +1,11 @@
 package com.example.tubes_01;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +22,9 @@ public class MenuListAdapter extends BaseAdapter {
     private Activity activity;
     private MainPresenter presenter;
     protected FragmentListener fl;
+    private SecondFragment f2;
+    private ThirdFragment f3;
+
 
     public MenuListAdapter(Activity activity, MainPresenter presenter, List<Menu> menuList ){
         this.activity=activity;
@@ -71,14 +78,14 @@ public class MenuListAdapter extends BaseAdapter {
         protected Menu menu;
         protected MainPresenter presenter;
         protected FragmentListener fl;
-
+        private SecondFragment f2;
         protected int position;
 
         public ViewHolder (View view, MainPresenter presenter){
             this.nama = view.findViewById(R.id.tv_nama_menu);
             this.presenter = presenter;
             this.nama.setOnClickListener(this);
-
+            this.f2 = SecondFragment.newInstance();
 
         }
 
@@ -89,7 +96,39 @@ public class MenuListAdapter extends BaseAdapter {
 //                Menu menu = this.menu;
 //                this.presenter.changePage(3);
 //                this.presenter.getList(menu);
-                Menu menu = listMenus.get(this.nama.getId());
+                final Menu menu = listMenus.get(0);
+
+                String[] pilihan = {"Ubah","Hapus"};
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(this.f2.getContext());
+                builder.setTitle("Pilihan");
+                builder.setItems(pilihan, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        switch (i) {
+                            case 0:
+//                                Intent intent = new Intent(f2.getContext(), f3.getClass());
+//                                intent.putExtra("nama", menu.getNama());
+//                                intent.putExtra("deskripsi", menu.getDeskripsi());
+//                                intent.putExtra("tag", menu.getTag());
+//                                intent.putExtra("bahan", menu.getBahan());
+//                                intent.putExtra("langkah", menu.getLangkah());
+//                                intent.putExtra("lokasi", menu.getLokasi());
+//                                context.startActivity(intent);
+
+                                Bundle bundle = new Bundle();
+                                bundle.putString("nama",menu.getNama());
+                                f3.setArguments(bundle);
+
+                                break;
+
+                            case 1:
+
+                                break;
+                        }
+                    }
+                });
+                    builder.show();
             }
         }
 

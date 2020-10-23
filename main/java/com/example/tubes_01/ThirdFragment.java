@@ -43,6 +43,12 @@ public class ThirdFragment extends Fragment {
         this.bahan = view.findViewById(R.id.tv_bahan);
         this.langkah = view.findViewById(R.id.tv_langkah);
         this.lokasi = view.findViewById(R.id.tv_lokasi);
+        Bundle bundle = this.getArguments();
+        if (bundle != null){
+            String i = bundle.getString("nama", "");
+            this.nama.setText(i);
+        }
+
         return view;
     }
 
