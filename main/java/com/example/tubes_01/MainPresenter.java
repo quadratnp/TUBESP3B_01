@@ -1,49 +1,60 @@
 package com.example.tubes_01;
 
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.TextView;
+
 import androidx.fragment.app.Fragment;
 
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-public class MainPresenter {
-    protected List<Menu> menus;
-    protected IMainActivity ui;
-    protected FragmentListener fl;
+public class MainPresenter extends SQLiteOpenHelper implements LihatMenu {
 
-    public MainPresenter (IMainActivity aktifitas, FragmentListener fl){
-        this.ui = aktifitas;
-        this.menus = new LinkedList<Menu>();
-        this.fl = fl;
+
+    public MainPresenter (Context context){
+        super(context, "menu.db", null,1);
     }
 
-    public void loadData(){
-        this.menus.addAll(Arrays.asList(MockMenu.menuObjectArr));
-        this.ui.updateList(this.menus);
+
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        String sql = "create table menu(id INTEGER PRIMARY KEY AUTOINCREMENT, nama text , deskripsi text , tag text , bahan text , langkah text , lokasi text );";
+        db.execSQL(sql);
     }
 
-    public void deleteList(int position){
-        this.menus.remove(position);
-        this.ui.updateList(this.menus);
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("drop table tbl_resepmakan");
     }
 
-    public void addList(String nama, String deskripsi, String tag, String bahan, String langkah, String lokasi ){
-        this.menus.add(new Menu(nama,deskripsi,tag,bahan, langkah, lokasi));
-        this.ui.updateList(this.menus);
-        this.ui.resetAddForm();
+    @Override
+    public Cursor read() {
+        SQLiteDatabase sql = getWritableDatabase();
+        return sql.rawQuery("select * from menu", null);
     }
 
-    public void editList(int position, String nama, String deskripsi, String tag, String bahan, String langkah, String lokasi ){
-        this.menus.set(position,new Menu(nama,deskripsi,tag,bahan, langkah, lokasi) );
-        this.ui.updateList(this.menus);
-        this.ui.resetAddForm();
+    @Override
+    public boolean create(Menu menu) {
+        SQLiteDatabase sql = getWritableDatabase();
+        sql.execSQL("insert into menu values(null, '"+menu.getNama()+"','"+menu.getDeskripsi()+"','"+menu.getTag()+"','"+menu.getBahan()+"','"+menu.getLangkah()+"','"+menu.getLokasi()+"')");
+        return true;
     }
 
-    public void getList(Menu menu ){
-
+    @Override
+    public boolean update(Menu menu) {
+        SQLiteDatabase sql = getWritableDatabase();
+        sql.execSQL("update menu set nama='"+menu.getNama()+"', deskripsi='"+menu.getDeskripsi()+"', tag='"+menu.getTag()+"', bahan='"+menu.getBahan()+"', langkah='"+menu.getLangkah()+"', lokasi='"+menu.getLokasi()+"' where id = '"+menu.getId()+"'");
+        return true;
     }
 
-    public void changePage(int i){
-        this.fl.changePage(i);
+    @Override
+    public boolean delete(String id) {
+        SQLiteDatabase sql = getWritableDatabase();
+        sql.execSQL("delete from menu where id = '"+id+"'");
+        return true;
     }
 }

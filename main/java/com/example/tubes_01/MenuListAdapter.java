@@ -19,10 +19,10 @@ public class MenuListAdapter extends BaseAdapter {
     private MainPresenter presenter;
     protected FragmentListener fl;
 
-    public MenuListAdapter(Activity activity, MainPresenter presenter){
+    public MenuListAdapter(Activity activity, MainPresenter presenter, List<Menu> menuList ){
         this.activity=activity;
-        this.listMenus = new ArrayList<Menu>();
         this.presenter = presenter;
+        this.listMenus = menuList;
     }
 
     public void add(Menu newItem){
@@ -58,9 +58,9 @@ public class MenuListAdapter extends BaseAdapter {
         return convertView;
     }
 
-    public void update(List<Menu> foods) {
+    public void update(List<Menu> menus) {
         this.listMenus.clear();
-        this.listMenus.addAll((foods));
+        this.listMenus.addAll((menus));
         this.notifyDataSetChanged();
 
     }
@@ -86,9 +86,10 @@ public class MenuListAdapter extends BaseAdapter {
         @Override
         public void onClick(View v){
             if(v.getId() == this.nama.getId()){
-                Menu menu = this.menu;
-                this.presenter.changePage(3);
-                this.presenter.getList(menu);
+//                Menu menu = this.menu;
+//                this.presenter.changePage(3);
+//                this.presenter.getList(menu);
+                Menu menu = listMenus.get(this.nama.getId());
             }
         }
 

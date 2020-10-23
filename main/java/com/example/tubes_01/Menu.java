@@ -1,6 +1,7 @@
 package com.example.tubes_01;
 
 public class Menu {
+    public Integer id;
     public String nama;
     public String deskripsi;
     public String tag;
@@ -8,7 +9,8 @@ public class Menu {
     public String langkah;
     public String lokasi;
 
-    public Menu(String nama,String deskripsi, String tag, String bahan, String langkah, String lokasi){
+    public Menu(Integer id, String nama, String deskripsi, String tag, String bahan, String langkah, String lokasi){
+        this.id = id;
         this.nama = nama;
         this.deskripsi = deskripsi;
         this.tag = tag;
@@ -63,5 +65,13 @@ public class Menu {
 
     public void setTag(String tag) {
         this.tag = tag;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

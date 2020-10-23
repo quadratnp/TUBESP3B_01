@@ -1,11 +1,15 @@
 <resources>
     <string name="app_name">tubes_01</string>
-    <string name="Cari">cari</string>
+    <string name="fragmentName">MAKAN APA</string>
+    <string name="openDrawer">openDrawer</string>
+    <string name="closeDrawer">closeDrawer</string>
     <string name="Home">Home</string>
+    <string name="Cari">Cari</string>
     <string name="Menu">Menu</string>
-    <string name="Settings">Setting</string>
-    <string name="openDrawer">open drawer</string>
-    <string name="closeDrawer">close drawer</string>
-    <string name="fragmentName">makan apa</string>
-    <string name="tv_makanApa">Makan Apa</string>
+    <string name="Settings">Settings</string>
+    <string name="submit">add</string>
+    <string name="btn_add">add</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="btn_submit">TAMBAHKAN</string>
 </resources>

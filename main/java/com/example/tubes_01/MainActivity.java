@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity implements FragmentListener,
     protected FirstFragment fragment1;
     protected SecondFragment fragment2;
     protected ThirdFragment fragment3;
+    protected FourthFragment fragment4;
     protected Toolbar toolbar;
 
     private DrawerLayout drawer;
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements FragmentListener,
         this.fragment1 = FirstFragment.newInstance();
         this.fragment2 = SecondFragment.newInstance();
         this.fragment3 = ThirdFragment.newInstance();
+        this.fragment4 = FourthFragment.newInstance();
         this.fragmentManager = getSupportFragmentManager();
         FragmentTransaction ft = this.fragmentManager.beginTransaction();
         ft.add(R.id.fragment_container, this.fragment1)
@@ -77,6 +79,9 @@ public class MainActivity extends AppCompatActivity implements FragmentListener,
             if(this.fragment1.isAdded()){
                 ft.hide(this.fragment1);
             }
+            if(this.fragment4.isAdded()){
+                ft.hide(this.fragment4);
+            }
         }
         else if(page==3){
             if(this.fragment3.isAdded()){
@@ -84,6 +89,20 @@ public class MainActivity extends AppCompatActivity implements FragmentListener,
             }else{
                 ft.add(R.id.fragment_container,this.fragment3)
                         .addToBackStack(null);
+            }
+            if(this.fragment2.isAdded()){
+                ft.hide(this.fragment2);
+            }
+        }
+        else if(page==4){
+            if(this.fragment4.isAdded()){
+                ft.show(this.fragment4);
+            }else{
+                ft.add(R.id.fragment_container, this.fragment4)
+                        .addToBackStack(null);
+            }
+            if(this.fragment3.isAdded()){
+                ft.hide(this.fragment3);
             }
             if(this.fragment2.isAdded()){
                 ft.hide(this.fragment2);
