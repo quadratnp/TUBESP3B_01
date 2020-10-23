@@ -1,3 +1,8 @@
 referensi :
 - https://www.codepolitan.com/menampilkan-title-toolbar-android-di-tengah-5a72c92cea8ef
 - https://www.codepolitan.com/aplikasi-crud-sederhana-menggunakan-android-studio-dengan-database-sqlite-57b6d14e04fa5-14500
+- https://www.youtube.com/watch?v=tfgwsO7EHJ0
+- https://www.youtube.com/watch?v=bMztj_GIono
+- https://www.youtube.com/watch?v=EW1C4CBrgdo
+- https://www.youtube.com/watch?v=EqTF8PsR1JE
+- https://www.youtube.com/watch?v=90g-bNvkY84
