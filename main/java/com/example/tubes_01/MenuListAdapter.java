@@ -5,7 +5,9 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,69 +76,45 @@ public class MenuListAdapter extends BaseAdapter {
     }
 
 
-    private class ViewHolder implements View.OnClickListener {
+
+    private class ViewHolder  {
         protected TextView nama;
         protected Menu menu;
         protected MainPresenter presenter;
         protected FragmentListener fl;
         private SecondFragment f2;
+        protected ThirdFragment f3;
         protected int position;
+        protected FragmentManager fragmentManager;
+        protected SharedPreferences sharedPref;
+        protected final static String NAMA_SHARED_PREF = "SP_NILAI_DISPLAY";
+        protected final static String KEY_BARANG = "BARANG";
+        protected final static String KEY_HARGA = "HARGA";
+        protected final static String KEY_KETERANGAN = "KETERANGAN";
 
         public ViewHolder (View view, MainPresenter presenter){
             this.nama = view.findViewById(R.id.tv_nama_menu);
             this.presenter = presenter;
-            this.nama.setOnClickListener(this);
-            this.f2 = SecondFragment.newInstance();
-
+//            this.nama.setOnClickListener(this);
+            fl = new MainActivity();
         }
 
 
-        @Override
-        public void onClick(View v){
-            if(v.getId() == this.nama.getId()){
-//                Menu menu = this.menu;
-//                this.presenter.changePage(3);
-//                this.presenter.getList(menu);
-                final Menu menu = listMenus.get(0);
 
-                String[] pilihan = {"Ubah","Hapus"};
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(this.f2.getContext());
-                builder.setTitle("Pilihan");
-                builder.setItems(pilihan, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        switch (i) {
-                            case 0:
-//                                Intent intent = new Intent(f2.getContext(), f3.getClass());
-//                                intent.putExtra("nama", menu.getNama());
-//                                intent.putExtra("deskripsi", menu.getDeskripsi());
-//                                intent.putExtra("tag", menu.getTag());
-//                                intent.putExtra("bahan", menu.getBahan());
-//                                intent.putExtra("langkah", menu.getLangkah());
-//                                intent.putExtra("lokasi", menu.getLokasi());
-//                                context.startActivity(intent);
-
-                                Bundle bundle = new Bundle();
-                                bundle.putString("nama",menu.getNama());
-                                f3.setArguments(bundle);
-
-                                break;
-
-                            case 1:
-
-                                break;
-                        }
-                    }
-                });
-                    builder.show();
-            }
-        }
+//        @Override
+//        public void onClick(View v){
+//            if(v.getId() == this.nama.getId()) {
+//                Log.d("test", this.nama.getId()+"");
+//
+//            }
+//        }
 
         public void updateView(Menu menu, int position){
             this.position = position;
             this.menu = menu;
             this.nama.setText(menu.getNama());
         }
+
+
     }
 }

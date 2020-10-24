@@ -1,5 +1,7 @@
 package com.example.tubes_01;
 
+import android.content.Context;
+import android.database.Cursor;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -11,6 +13,8 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+
 
 public class ThirdFragment extends Fragment {
     protected TextView nama;
@@ -19,6 +23,10 @@ public class ThirdFragment extends Fragment {
     protected TextView bahan;
     protected TextView langkah;
     protected TextView lokasi;
+    protected FragmentListener fl;
+    protected LihatMenu lm;
+    protected Menu menu;
+    protected PenyimpananNilaiDisplay pencatat;
 
     public ThirdFragment() {
         // Required empty public constructor
@@ -43,21 +51,48 @@ public class ThirdFragment extends Fragment {
         this.bahan = view.findViewById(R.id.tv_bahan);
         this.langkah = view.findViewById(R.id.tv_langkah);
         this.lokasi = view.findViewById(R.id.tv_lokasi);
-        Bundle bundle = this.getArguments();
-        if (bundle != null){
-            String i = bundle.getString("nama", "");
-            this.nama.setText(i);
-        }
+        this.pencatat = new PenyimpananNilaiDisplay(this.getContext());
 
+        read();
         return view;
     }
 
-    public void changeMenu(Menu menu){
-        this.nama.setText(menu.getNama());
-        this.bahan.setText(menu.getBahan());
-        this.deskripsi.setText(menu.getDeskripsi());
-        this.langkah.setText(menu.getLangkah());
-        this.tag.setText(menu.getTag());
-        this.lokasi.setText(menu.getLokasi());
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if(context instanceof FragmentListener){
+            this.fl = (FragmentListener) context;
+        } else{
+            throw new ClassCastException(context.toString()
+                    + "must implement FragmentListener");
+        }
     }
+
+    public void gantiPage(int i){
+        this.fl.changePage(i);
+    }
+
+    private void read(){
+        lm = new MainPresenter(this.getContext());
+        Cursor cursor = lm.readData(this.pencatat.getNama());
+
+        cursor.moveToFirst();
+        if (cursor.getCount()>0)
+        {
+            cursor.moveToPosition(0);
+            this.nama.setText(cursor.getString(1).toString());
+            this.deskripsi.setText(cursor.getString(2).toString());
+            this.tag.setText(cursor.getString(3).toString());
+            this.bahan.setText(cursor.getString(4).toString());
+            this.langkah.setText(cursor.getString(5).toString());
+            this.lokasi.setText(cursor.getString(6).toString());
+        }
+    }
+
+    public void setMenu(Menu menu){
+        this.menu = menu;
+    }
+
+
+
 }

@@ -1,5 +1,6 @@
 package com.example.tubes_01;
 
+
 public class Menu {
     public Integer id;
     public String nama;

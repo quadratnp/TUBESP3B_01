@@ -19,6 +19,7 @@ public class FourthFragment extends Fragment implements View.OnClickListener {
     protected Button btn_add;
     protected LihatMenu lihatmenu;
     protected FragmentListener fl;
+    protected SecondFragment f2;
 
     public FourthFragment() {
         // Required empty public constructor
@@ -43,6 +44,7 @@ public class FourthFragment extends Fragment implements View.OnClickListener {
         etbahan = view.findViewById(R.id.editText4);
         etlangkah = view.findViewById(R.id.editText5);
         etlokasi = view.findViewById(R.id.editText6);
+        f2 =  SecondFragment.newInstance();
         btn_add = view.findViewById(R.id.btn_tambahkan);
         btn_add.setOnClickListener(this);
         return view;
@@ -77,7 +79,7 @@ public class FourthFragment extends Fragment implements View.OnClickListener {
 
         );
         if(lihatmenu.create(menu)){
-            Toast.makeText(this.getContext(), "Berhasil Disimpan", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Berhasil Disimpan", Toast.LENGTH_SHORT).show();
             fl.changePage(2);
         }
     }

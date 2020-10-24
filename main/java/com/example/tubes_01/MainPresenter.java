@@ -45,16 +45,21 @@ public class MainPresenter extends SQLiteOpenHelper implements LihatMenu {
     }
 
     @Override
-    public boolean update(Menu menu) {
+    public boolean update(Integer id, String nama, String deskripsi, String tag,String bahan, String langkah, String lokasi) {
         SQLiteDatabase sql = getWritableDatabase();
-        sql.execSQL("update menu set nama='"+menu.getNama()+"', deskripsi='"+menu.getDeskripsi()+"', tag='"+menu.getTag()+"', bahan='"+menu.getBahan()+"', langkah='"+menu.getLangkah()+"', lokasi='"+menu.getLokasi()+"' where id = '"+menu.getId()+"'");
+        sql.execSQL("update menu set nama='"+nama+"', deskripsi='"+deskripsi+"', tag='"+tag+"', bahan='"+bahan+"', langkah='"+langkah+"', lokasi='"+lokasi+"' where id = '"+id+"'");
         return true;
     }
 
     @Override
-    public boolean delete(String id) {
+    public boolean delete(Integer id) {
         SQLiteDatabase sql = getWritableDatabase();
         sql.execSQL("delete from menu where id = '"+id+"'");
         return true;
+    }
+
+    public Cursor readData(String nama){
+        SQLiteDatabase sql = getWritableDatabase();
+        return sql.rawQuery("select * from menu where nama ='"+nama+"'", null);
     }
 }

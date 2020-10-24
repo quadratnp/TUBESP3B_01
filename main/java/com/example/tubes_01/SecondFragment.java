@@ -4,9 +4,11 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +37,8 @@ public class SecondFragment extends Fragment implements IMainActivity, View.OnCl
     protected FragmentListener fl;
     protected List<Menu> menuList;
     protected LihatMenu lm;
+    protected Menu menu;
+    protected PenyimpananNilaiDisplay pencatat;
     public SecondFragment() {
         //empty
     }
@@ -50,6 +54,59 @@ public class SecondFragment extends Fragment implements IMainActivity, View.OnCl
         View view = inflater.inflate(R.layout.fragment_second, container, false);
         this.presenter = new MainPresenter(this.getContext());
         this.lstMenus = view.findViewById(R.id.lst_menus);
+        this.pencatat = new PenyimpananNilaiDisplay(this.getContext());
+        this.lstMenus.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                menu = (Menu) lstMenus.getItemAtPosition(position);
+                Log.d("nama", "onItemClick: "+menu.getNama().toString());
+
+                String[] pilihan = {"Lihat","Ubah","Hapus"};
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Pilihan");
+                builder.setItems(pilihan, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(final DialogInterface dialogInterface, int i) {
+                        switch (i) {
+                            case 0:
+                                pencatat = new PenyimpananNilaiDisplay(getContext());
+                                pencatat.saveNama(menu.getNama());
+                                Log.d("getList", ""+menu.getNama());
+                                fl.changePage(3);
+                                break;
+                            case 1:
+                                pencatat = new PenyimpananNilaiDisplay(getContext());
+                                pencatat.saveNama(menu.getNama());
+                                Log.d("getList", ""+menu.getNama());
+                                fl.changePage(5);
+                                break;
+                            case 2:
+                                final Integer id = menu.getId();
+                                AlertDialog.Builder builderDelete = new AlertDialog.Builder(getContext());
+                                builderDelete.setMessage("Yakin Ingin Hapus");
+                                builderDelete.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        Log.d("id", "onClick: "+id);
+                                        lm.delete(id);
+                                        read();
+                                    }
+                                });
+                                builderDelete.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialogInterface.dismiss();
+                                    }
+                                });
+                                builderDelete.show();
+                                break;
+                        }
+                    }
+                });
+                builder.show();
+            }
+        });
         this.btn_add = view.findViewById(R.id.btn_add);
         this.btn_add.setOnClickListener(this);
         read();
@@ -68,7 +125,7 @@ public class SecondFragment extends Fragment implements IMainActivity, View.OnCl
         if(cursor.moveToFirst()){
             do{
                 Menu menu = new Menu(
-                        null,
+                        Integer.valueOf(cursor.getString(0)),
                         cursor.getString(1),
                         cursor.getString(2),
                         cursor.getString(3),

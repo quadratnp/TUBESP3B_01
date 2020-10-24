@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements FragmentListener,
     protected SecondFragment fragment2;
     protected ThirdFragment fragment3;
     protected FourthFragment fragment4;
+    protected UbahFragment fragment5;
     protected Toolbar toolbar;
 
     private DrawerLayout drawer;
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements FragmentListener,
         this.fragment2 = SecondFragment.newInstance();
         this.fragment3 = ThirdFragment.newInstance();
         this.fragment4 = FourthFragment.newInstance();
+        this.fragment5 = UbahFragment.newInstance();
         this.fragmentManager = getSupportFragmentManager();
         FragmentTransaction ft = this.fragmentManager.beginTransaction();
         ft.add(R.id.fragment_container, this.fragment1)
@@ -82,6 +84,9 @@ public class MainActivity extends AppCompatActivity implements FragmentListener,
             if(this.fragment4.isAdded()){
                 ft.hide(this.fragment4);
             }
+            if(this.fragment5.isAdded()){
+                ft.hide(this.fragment5);
+            }
         }
         else if(page==3){
             if(this.fragment3.isAdded()){
@@ -108,7 +113,25 @@ public class MainActivity extends AppCompatActivity implements FragmentListener,
                 ft.hide(this.fragment2);
             }
         }
+        else if(page==5){
+            if(this.fragment5.isAdded()){
+                ft.show(this.fragment5);
+            }else{
+                ft.add(R.id.fragment_container, this.fragment5)
+                        .addToBackStack(null);
+            }
+            if(this.fragment2.isAdded()){
+                ft.hide(this.fragment2);
+            }
+            if(this.fragment3.isAdded()){
+                ft.hide(this.fragment3);
+            }
+        }
         ft.commit();
+    }
+
+    public void setMenu(Menu menu){
+        this.fragment3.setMenu(menu);
     }
 
     @Override
